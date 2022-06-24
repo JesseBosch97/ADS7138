@@ -17,7 +17,26 @@
 /*=========================================================================
     I2C ADDRESS/BITS
     -----------------------------------------------------------------------*/
-	//some adresses
+	#define I2C_ADDRESS_DEFAULT				(0x10)
+	#define I2C_ADDRESS_DNP_DNP_10			(0x10)
+	#define I2C_ADDRESS_DNP_11K_11			(0x11)
+	#define I2C_ADDRESS_DNP_33K_12			(0x12)
+	#define I2C_ADDRESS_DNP_100K_13			(0x13)
+	#define I2C_ADDRESS_100K_DNP_14			(0x14)
+	#define I2C_ADDRESS_33K_DNP_15			(0x15)
+	#define I2C_ADDRESS_11K_DNP_16			(0x16)
+	#define I2C_ADDRESS_0K_DNP_17			(0x17)
+/*=========================================================================*/
+
+/*=========================================================================
+    OPCODES
+    -----------------------------------------------------------------------*/
+	#define SINGLE_REGISTER_READ			(0x10)
+	#define SINGLE_REGISTER_WRITE			(0x08)
+	#define SET_BIT							(0x18)
+	#define CLEAR_BIT						(0x20)
+	#define READING_CONTINUOUS_REGISTERS	(0x30)
+	#define WRITING_CONTINUOUS_REGISTERS	(0x28)
 /*=========================================================================*/
 
 /*=========================================================================
@@ -29,9 +48,12 @@
 	#define SYSTEM_STATUS_SEQ_STATUS		(0x40)
 	#define	SYSTEM_STATUS_I2C_SPEED			(0x20)
 	#define SYSTEM_STATUS_OSR_DONE			(0x08)
+	#define SYSTEM_STATUS_OSR_CLEAR			(0x08)
 	#define SYSTEM_STATUS_CRC_ERR_FUSE		(0x04)
 	#define SYSTEM_STATUS_CRC_ERR_IN		(0x02)
+	#define SYSTEM_STATUS_CRC_ERR_IN_CLEAR	(0x02)
 	#define SYSTEM_STATUS_BOR				(0x01)
+	#define SYSTEM_STATUS_BOR_CLEAR			(0x01)
 /*=========================================================================*/
 
 /*=========================================================================
@@ -57,6 +79,7 @@
 	#define DATA_CFG_APPEND_STATUS_0		(0x00)
 	#define DATA_CFG_APPEND_STATUS_1		(0x10)
 	#define DATA_CFG_APPEND_STATUS_2		(0x20)
+	#define DATA_CFG_APPEND_STATUS_3		(0x30)
 /*=========================================================================*/
 
 /*=========================================================================
@@ -82,8 +105,24 @@
 	#define OPMODE_CFG_CONV_ON_ERR			(0x80)
 	#define OPMODE_CFG_CONV_MODE_MANUAL		(0x00)
 	#define OPMODE_CFG_CONV_MODE_AUTO		(0x20)
-	#define OPMODE_CFG_OSC_SEL				(0x10)
-	#define OPMODE_CFG_CLK_DIV				(0x0F)
+	#define OPMODE_CFG_OSC_SEL_HIGHSPEED	(0x00)
+	#define OPMODE_CFG_OSC_SEL_LOWSPEED		(0x10)
+	#define OPMODE_CFG_CLK_DIV_1000			(0x00)
+	#define OPMODE_CFG_CLK_DIV_666			(0x01)
+	#define OPMODE_CFG_CLK_DIV_500			(0x02)
+	#define OPMODE_CFG_CLK_DIV_333			(0x03)
+	#define OPMODE_CFG_CLK_DIV_250			(0x04)
+	#define OPMODE_CFG_CLK_DIV_166			(0x05)
+	#define OPMODE_CFG_CLK_DIV_125			(0x06)
+	#define OPMODE_CFG_CLK_DIV_83			(0x07)
+	#define OPMODE_CFG_CLK_DIV_62			(0x08)
+	#define OPMODE_CFG_CLK_DIV_41			(0x09)
+	#define OPMODE_CFG_CLK_DIV_31			(0x0A)
+	#define OPMODE_CFG_CLK_DIV_20			(0x0B)
+	#define OPMODE_CFG_CLK_DIV_15			(0x0C)
+	#define OPMODE_CFG_CLK_DIV_10			(0x0D)
+	#define OPMODE_CFG_CLK_DIV_7			(0x0E)
+	#define OPMODE_CFG_CLK_DIV_5			(0x0F)
 /*=========================================================================*/
 
 /*=========================================================================
@@ -91,6 +130,14 @@
 --------------------------------------------------------------------------*/
 	#define PIN_CFG_MASKadd					(0x5)
 	#define PIN_CFG_RESET					(0x00)
+	#define PIN_CFG_GPIO_0					(0x01)
+	#define PIN_CFG_GPIO_1					(0x02)
+	#define PIN_CFG_GPIO_2					(0x04)
+	#define PIN_CFG_GPIO_3					(0x08)
+	#define PIN_CFG_GPIO_4					(0x10)
+	#define PIN_CFG_GPIO_5					(0x20)
+	#define PIN_CFG_GPIO_6					(0x40)
+	#define PIN_CFG_GPIO_7					(0x80)
 /*==========================================================================*/
 
 /*=========================================================================
@@ -98,6 +145,14 @@
 	-----------------------------------------------------------------------*/
 	#define GPIO_CFG_MASKadd				(0X7)
 	#define GPIO_CFG_RESET					(0x00)
+	#define GPIO_CFG_0_OUTPUT				(0x01)
+	#define GPIO_CFG_1_OUTPUT				(0x02)
+	#define GPIO_CFG_2_OUTPUT				(0x04)
+	#define GPIO_CFG_3_OUTPUT				(0x08)
+	#define GPIO_CFG_4_OUTPUT				(0x10)
+	#define GPIO_CFG_5_OUTPUT				(0x20)
+	#define GPIO_CFG_6_OUTPUT				(0x40)
+	#define GPIO_CFG_7_OUTPUT				(0x80)	
 /*=========================================================================*/
 
 /*=========================================================================
@@ -105,7 +160,14 @@
 	-----------------------------------------------------------------------*/
 	#define GPO_DRIVE_CFG_MASKadd			(0x9)
 	#define GPO_DRIVE_CFG_RESET				(0x00)
-	
+	#define GPO_DRIVE_CFG_GPO_0_PUSH_PULL	(0x01)
+	#define GPO_DRIVE_CFG_GPO_1_PUSH_PULL	(0x02)
+	#define GPO_DRIVE_CFG_GPO_2_PUSH_PULL	(0x04)
+	#define GPO_DRIVE_CFG_GPO_3_PUSH_PULL	(0x08)
+	#define GPO_DRIVE_CFG_GPO_4_PUSH_PULL	(0x10)
+	#define GPO_DRIVE_CFG_GPO_5_PUSH_PULL	(0x20)
+	#define GPO_DRIVE_CFG_GPO_6_PUSH_PULL	(0x40)
+	#define GPO_DRIVE_CFG_GPO_7_PUSH_PULL	(0x80)	
 /*=========================================================================*/
 
 /*=========================================================================
@@ -113,6 +175,14 @@
 	-----------------------------------------------------------------------*/
 	#define GPO_VALUE_MASKadd				(0xB)
 	#define GPO_VALUE_RESET					(0x00)
+	#define GPO_VALUE_GPO_0_LOGIC_HIGH		(0x01)
+	#define GPO_VALUE_GPO_1_LOGIC_HIGH		(0x02)
+	#define GPO_VALUE_GPO_2_LOGIC_HIGH		(0x04)
+	#define GPO_VALUE_GPO_3_LOGIC_HIGH		(0x08)
+	#define GPO_VALUE_GPO_4_LOGIC_HIGH		(0x10)
+	#define GPO_VALUE_GPO_5_LOGIC_HIGH		(0x20)
+	#define GPO_VALUE_GPO_6_LOGIC_HIGH		(0x40)
+	#define GPO_VALUE_GPO_7_LOGIC_HIGH		(0x80)
 /*=========================================================================*/
 
 /*=========================================================================
@@ -120,6 +190,14 @@
 	-----------------------------------------------------------------------*/
 	#define GPI_VALUE_MASKadd				(0xD)
 	#define GPI_VALUE_RESET					(0x00)
+	#define GPI_VALUE_GPI_0_LOGIC_HIGH		(0x01)
+	#define GPI_VALUE_GPI_1_LOGIC_HIGH		(0x02)
+	#define GPI_VALUE_GPI_2_LOGIC_HIGH		(0x04)
+	#define GPI_VALUE_GPI_3_LOGIC_HIGH		(0x08)
+	#define GPI_VALUE_GPI_4_LOGIC_HIGH		(0x10)
+	#define GPI_VALUE_GPI_5_LOGIC_HIGH		(0x20)
+	#define GPI_VALUE_GPI_6_LOGIC_HIGH		(0x40)
+	#define GPI_VALUE_GPI_7_LOGIC_HIGH		(0x80)
 /*=========================================================================*/
 
 /*=========================================================================
@@ -127,7 +205,8 @@
 	-----------------------------------------------------------------------*/
 	#define SEQUENCE_CFG_MASKadd			(0x10)
 	#define SEQUENCE_CFG_RESET				(0x00)
-	#define SEQUENCE_CFG_SEQ_START_AUTO		(0x10)
+	#define SEQUENCE_CFG_SEQ_STOP			(0x00)
+	#define SEQUENCE_CFG_SEQ_START			(0x10)
 	#define SEQUENCE_CFG_SEQ_MODE_AUTO		(0x01)
 	#define SEQUENCE_CFG_SEQ_MODE_MANUAL	(0x00)
 /*=========================================================================*/
@@ -137,14 +216,14 @@
 	-----------------------------------------------------------------------*/
 	#define CHANNEL_SEL_MASKadd				(0x11)
 	#define CHANNEL_SEL_RESET				(0x00)
-	#define CHANNEL_SEL_AIN_0				(0x00)
-	#define CHANNEL_SEL_AIN_1				(0x01)
-	#define CHANNEL_SEL_AIN_2				(0x02)
-	#define CHANNEL_SEL_AIN_3				(0x03)
-	#define CHANNEL_SEL_AIN_4				(0x04)
-	#define CHANNEL_SEL_AIN_5				(0x05)
-	#define CHANNEL_SEL_AIN_6				(0x06)
-	#define CHANNEL_SEL_AIN_7				(0x07)
+	#define CHANNEL_SEL_MANUAL_CHID_AIN_0	(0x00)
+	#define CHANNEL_SEL_MANUAL_CHID_AIN_1	(0x01)
+	#define CHANNEL_SEL_MANUAL_CHID_AIN_2	(0x02)
+	#define CHANNEL_SEL_MANUAL_CHID_AIN_3	(0x03)
+	#define CHANNEL_SEL_MANUAL_CHID_AIN_4	(0x04)
+	#define CHANNEL_SEL_MANUAL_CHID_AIN_5	(0x05)
+	#define CHANNEL_SEL_MANUAL_CHID_AIN_6	(0x06)
+	#define CHANNEL_SEL_MANUAL_CHID_AIN_7	(0x07)
 /*=========================================================================*/
 
 /*=========================================================================
@@ -152,6 +231,14 @@
 	-----------------------------------------------------------------------*/
 	#define AUTO_SEQ_CH_SEL_MASKadd			(0x12)
 	#define AUTO_SEQ_CH_SEL_RESET			(0x00)
+	#define AUTO_SEQ_CH_SEL_AIN_0			(0x01)
+	#define AUTO_SEQ_CH_SEL_AIN_1			(0x02)
+	#define AUTO_SEQ_CH_SEL_AIN_2			(0x04)
+	#define AUTO_SEQ_CH_SEL_AIN_3			(0x08)
+	#define AUTO_SEQ_CH_SEL_AIN_4			(0x10)
+	#define AUTO_SEQ_CH_SEL_AIN_5			(0x20)
+	#define AUTO_SEQ_CH_SEL_AIN_6			(0x40)
+	#define AUTO_SEQ_CH_SEL_AIN_7			(0x80)
 	#define AUTO_SEQ_CH_SEL_ALL				(0xFF)
 /*=========================================================================*/
 
